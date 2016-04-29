@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html ng-app="telephonicList">
+<head>
+    <title>Telephonic List</title>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
+    <style>
+        .jumbotron{
+            width:400px;
+            text-align: center;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .table{
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="lib/angular/angular.js"></script>
+    <script>
+        angular.module("telephonicList",[]);
+        angular.module("telephonicList").controller("telephonicListCtrl", function($scope){
+            $scope.app = "Telephonic List";
+            $scope.contacts = [
+                {name: "Jhonatan", phone: "9999-9999"},
+                {name: "Ana", phone: "9999-9999"},
+                {name: "Maria", phone: "9999-9999"}
+            ];
+            $scope.companys = [
+                {name: "OI",id: 14, category: "Celular"},
+                {name: "VIVO",id: 15, category: "Celular"},
+                {name: "TIM",id: 41, category: "Celular"},
+                {name: "GVT",id: 25, category: "Fixo"},
+                {name: "Embratel",id: 21, category: "Fixo"}
+            ];
+
+            $scope.addContact = function (contact){
+                $scope.contacts.push(angular.copy(contact));
+                delete $scope.contact;
+
+            };
+        });
+    </script>
+</head>
+<body ng-controller="telephonicListCtrl">
+<div class="jumbotron">
+    <h3>{{app}} <img src="img/phonebook.jpg" width="10%" height="10%"></h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Company</th>
+        </tr>
+        <tr ng-repeat="contact in contacts">
+            <td>{{contact.name}}</td>
+            <td>{{contact.phone}}</td>
+            <td>{{contact.company}}</td>
+        </tr>
+    </table>
+    <fieldset>
+        <input class="form-control" type="text" ng-model="contact.name" placeholder="Name"/>
+        <input class="form-control" type="text" ng-model="contact.phone" placeholder="Phone"/>
+        <select class="form-control" ng-model="contact.company" ng-options="company.name group by company.category for company in companys">
+            <option value="">Select a Company</option>
+        </select>
+        <button class="btn btn-primary btn-block" ng-click="addContact(contact)" ng-disabled="!contact.name || ! contact.phone">Add Contact</button>
+    </fieldset>
+</div>
+</body>
+</html>
